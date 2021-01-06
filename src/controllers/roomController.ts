@@ -218,4 +218,30 @@ export class RoomController {
       return res.status(400).send({ error });
     }
   }
+
+  static async disconnect(req: Request, res: Response) {
+    try {
+      const { code } = req.params;
+      const { player } = req.body;
+      const room = await getRoomByCode(code);
+      const findPlayer = room.players.find((p) => p.name === player.name);
+
+      room.players = room.players.filter((p) => p.name !== player.name);
+
+      if (room.players.length === 0) {
+        await RoomModel.deleteOne({ _id: room._id });
+      } else {
+        if (room.owner.name === player.name) {
+          room.owner = room.players[0];
+        }
+
+        await RoomModel.updateOne({ _id: room._id }, room);
+        await req.io.emit(`${room.code}/update`, room);
+
+        return res.send({ room });
+      }
+    } catch (error) {
+      return res.status(400).send({ error });
+    }
+  }
 }

@@ -5,8 +5,5 @@ import RoomRoutes from "./RoomRoutes";
 const router = express.Router();
 
 router.use("/rooms", RoomRoutes);
-router.use("/delete-records", async (req: Request, res: Response) => {
-  await NameCategoryModel.deleteMany({ ate2010: "" });
-});
 
 export default router;
