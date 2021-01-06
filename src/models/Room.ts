@@ -7,6 +7,11 @@ export interface IRoom extends Document {
   code?: string;
   players?: IPlayer[];
   owner: IPlayer;
+  status?:
+    | "WAITING_TO_START_GAME"
+    | "READY_TO_ANSWER"
+    | "WAITING_FOR_ROUND"
+    | "GAME_OVER";
   round?: {
     canSendAnswer: boolean;
     question: IQuestion;
@@ -28,6 +33,17 @@ export const RoomSchema: Schema = new mongoose.Schema({
   owner: {
     type: PlayerSchema,
     required: true,
+  },
+
+  status: {
+    type: String,
+    enum: [
+      "WAITING_TO_START_GAME",
+      "READY_TO_ANSWER",
+      "WAITING_FOR_ROUND",
+      "GAME_OVER",
+    ],
+    default: "WAITING_TO_START_GAME",
   },
 
   round: {

@@ -68,9 +68,11 @@ export class RoomController {
 
       room.players.push(player);
       await RoomModel.updateOne({ _id: room._id }, room);
+      await req.io.emit(`${room.code}/update`, room);
 
       return res.send(room);
     } catch (error) {
+      console.log(error);
       return res.status(400).send({ error });
     }
   }
@@ -90,9 +92,15 @@ export class RoomController {
         throw "O jogo já foi finalizado";
       }
 
-      room.round.current++;
-      room.round.canSendAnswer = true;
-      room.round.question = await generateQuestion();
+      if (room.round.current === room.round.total) {
+        room.status = "GAME_OVER";
+      } else {
+        room.round.current++;
+        room.round.canSendAnswer = true;
+        room.round.question = await generateQuestion();
+        room.status = "READY_TO_ANSWER";
+      }
+
       // room.players = await calculatePlayersScore(room);
       // console.log(calculateRelativeDifference(12000, 12930));
       // console.log(getInstagramFollowerCount("vit.orrr"));
@@ -107,6 +115,7 @@ export class RoomController {
       // if (!player) {
       //   throw "Invalid player";
       // }
+      await req.io.emit(`${room.code}/update`, room);
 
       await RoomModel.updateOne({ _id: room._id }, room);
 
@@ -129,11 +138,15 @@ export class RoomController {
 
       room.players = await calculatePlayersScore(room);
       room.round.canSendAnswer = false;
+      room.status = "WAITING_FOR_ROUND";
 
       await RoomModel.updateOne({ _id: room._id }, room);
 
-      return res.send({ ok: true });
+      await req.io.emit(`${room.code}/update`, room);
+
+      return res.send({ room });
     } catch (error) {
+      console.log(error);
       return res.status(400).send({ error });
     }
   }
@@ -169,7 +182,9 @@ export class RoomController {
 
       await RoomModel.updateOne({ _id: room._id }, room);
 
-      return res.send({ ok: true });
+      await req.io.emit(`${room.code}/update`, room);
+
+      return res.send({ room });
     } catch (error) {
       return res.status(400).send({ error });
     }
