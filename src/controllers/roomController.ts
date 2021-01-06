@@ -189,4 +189,33 @@ export class RoomController {
       return res.status(400).send({ error });
     }
   }
+
+  static async restart(req: Request, res: Response) {
+    try {
+      const { code } = req.params;
+      const { player } = req.body;
+
+      const room = await getRoomByCode(code);
+
+      room.status = "WAITING_TO_START_GAME";
+      room.round.current = 0;
+      delete room.round.question;
+
+      room.players = room.players.map((p) => {
+        p.hasSentHunch = false;
+        delete p.hunch;
+        delete p.roundScore;
+        p.score = 0;
+        return p;
+      });
+
+      await RoomModel.updateOne({ _id: room._id }, room);
+
+      await req.io.emit(`${room.code}/update`, room);
+
+      return res.send({ room });
+    } catch (error) {
+      return res.status(400).send({ error });
+    }
+  }
 }

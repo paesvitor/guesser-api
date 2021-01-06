@@ -9,5 +9,6 @@ router.post("/:code", RoomController.join);
 router.post("/:code/next-round", RoomController.startNextRound);
 router.post("/:code/answer", RoomController.answer);
 router.post("/:code/finish-round", RoomController.finishCurrentRound);
+router.post("/:code/restart", RoomController.restart);
 
 export default router;

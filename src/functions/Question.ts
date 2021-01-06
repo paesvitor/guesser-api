@@ -3,19 +3,29 @@ import { IPlayer } from "src/models/Player";
 import { IQuestion, QuestionModel, QuestionSchema } from "src/models/Question";
 import { IRoom } from "src/models/Room";
 import { getInstagramFollowerCount } from "./Instagram";
+import { INameCategory, NameCategoryModel } from "../models/categories/Name";
 
 export async function generateQuestion() {
-  const profile = getRandomArrayItem(instagramProfiles);
-  const answer = await getInstagramFollowerCount(profile);
+  const aggregate = await NameCategoryModel.aggregate([
+    {
+      $match: {
+        ate2010: {
+          $gt: 3000,
+        },
+      },
+    },
 
-  if (!answer) {
-    throw "Error";
-  }
+    {
+      $sample: { size: 1 },
+    },
+  ]);
+
+  const res: INameCategory = aggregate[0];
 
   const question = new QuestionModel({
-    text: `Quantos seguidores tem @${profile}`,
-    answer,
-    category: "Instagram",
+    text: `Quantos pessoas se chamam ${res.Nome}`,
+    answer: res.ate2010 || 0,
+    category: "Nomes do Brasil",
   });
 
   return question;
@@ -44,10 +54,12 @@ export function calculatePlayersScore(room: IRoom): IPlayer[] {
   const players: IPlayer[] = [];
 
   room.players.map((player) => {
-    player.score =
-      player.score + calculateScore(room.round.question, player.hunch);
+    const score = calculateScore(room.round.question, player.hunch);
+
+    player.score = player.score + score;
     player.hasSentHunch = false;
     player.hunch = null;
+    player.roundScore = score;
 
     players.push(player);
   });

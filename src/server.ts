@@ -1,3 +1,4 @@
+require("dotenv/config");
 import express, { Request, Response, Application } from "express";
 import bodyParser from "body-parser";
 import routes from "./routes";
@@ -28,5 +29,5 @@ app.use(routes);
 http.listen(port, () =>
   console.log(`Application started successfully on port ${port}.`)
 );
-const db = "mongodb://localhost:27017/guessr";
-connect({ db });
+
+connect({ db: process.env.DB_CONNECTION_QUERY });

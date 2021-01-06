@@ -6,6 +6,7 @@ export interface IPlayer extends Document {
   score: number;
   hunch: number;
   hasSentHunch: boolean;
+  roundScore: number;
 }
 
 export const PlayerSchema: Schema = new mongoose.Schema({
@@ -26,6 +27,10 @@ export const PlayerSchema: Schema = new mongoose.Schema({
   },
 
   hunch: {
+    type: Number,
+  },
+
+  roundScore: {
     type: Number,
   },
 
