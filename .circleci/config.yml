@@ -19,8 +19,6 @@ jobs:
     executor:
       name: node/default
     steps:            
-      - attach_workspace:
-          at: /tmp/dist
       - run:
           name: Installing deployment dependencies
           command: |
@@ -30,7 +28,7 @@ jobs:
             sudo pip3 install awsebcli --upgrade
       - run:
           name: Deploying
-          command: eb deploy GuesserApi-env
+          command: ls && eb deploy GuesserApi-env
 
 workflows:
   deploy-prod:
