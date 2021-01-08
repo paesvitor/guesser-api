@@ -13,9 +13,9 @@ jobs:
             - run: npm run build
             - run: mkdir tmp && zip -r tmp/build.zip build
             - persist_to_workspace:
-              root: .
-              paths:
-                - 'tmp'
+                root: .
+                paths:
+                  - 'tmp'
             - run:
                 name: Installing deployment dependencies
                 command: |
