@@ -2,19 +2,11 @@ version: 2.1
 orbs:
   node: circleci/node@1.1
 jobs:
-  build:
-    executor:
-      name: node/default
-    steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm run build
   deploy-prod:
     executor:
       name: node/default
-    steps:            
+    steps: 
+      - checkout
       - run:
           name: Installing deployment dependencies
           command: |
@@ -29,13 +21,10 @@ jobs:
 workflows:
   deploy-prod:
     jobs:
-      - build
       - deploy-prod:
           context: guesser-api
           filters:
             branches:
               only:
                 - circleci-project-setup
-          requires:
-            - build
           
