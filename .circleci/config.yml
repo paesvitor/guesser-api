@@ -34,17 +34,15 @@ jobs:
           command: eb deploy GuesserApi-env
 
 workflows:
-  build:
+  deploy-prod:
     jobs:
-      - build:
-          context: guesser-api
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
+      - build
       - deploy-prod:
           context: guesser-api
           filters:
             branches:
               only:
                 - circleci-project-setup
+          requires:
+            - build
+          
