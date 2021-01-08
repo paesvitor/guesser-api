@@ -14,7 +14,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - 'tmp'
+            - dist
   deploy-prod:
     executor:
       name: node/default
@@ -28,7 +28,7 @@ jobs:
             sudo pip3 install --upgrade setuptools
             sudo pip3 install awsebcli --upgrade
       - attach_workspace:
-          at: .
+          at: /tmp/dist
       - run:
           name: Deploying
           command: eb deploy GuesserApi-env
