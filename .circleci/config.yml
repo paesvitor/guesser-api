@@ -19,7 +19,6 @@ jobs:
     executor:
       name: node/default
     steps:            
-      - run: mkdir tmp && zip -r tmp/dist.zip dist
       - run:
           name: Installing deployment dependencies
           command: |
