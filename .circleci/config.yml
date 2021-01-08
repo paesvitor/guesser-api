@@ -23,7 +23,7 @@ jobs:
       name: node/default
     steps:            
       - attach_workspace:
-          at: ./dist
+          at: ./
       - run: 
           name: Checking stuff
           command: ls && ls dist
