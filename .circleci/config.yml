@@ -11,7 +11,7 @@ jobs:
           steps:
             - run: npm install
             - run: npm run build
-            - run: mkdir tmp && zip -r tmp/build.zip build
+            - run: mkdir tmp && zip -r tmp/dist.zip dist
             - persist_to_workspace:
                 root: .
                 paths:
