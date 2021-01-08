@@ -37,7 +37,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules src/server.ts",
     "test": "jest",
-    "start": "npm i && npm run build && npm start",
+    "start": "node dist/server.js",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   }
 }
