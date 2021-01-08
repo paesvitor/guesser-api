@@ -2,37 +2,39 @@ version: 2.1
 orbs:
   node: circleci/node@1.1
 jobs:
-  build-and-test:
+  build:
     executor:
       name: node/default
     steps:
       - checkout
-      - node/with-cache:
+      - build:
           steps:
             - run: npm install
             - run: npm run build
-            - run: mkdir tmp && zip -r tmp/dist.zip dist
-            - persist_to_workspace:
-                root: .
-                paths:
-                  - 'tmp'
-            - run:
-                name: Installing deployment dependencies
-                command: |
-                  sudo apt-get -y -qq update
-                  sudo apt-get install python3-pip python3-dev build-essential
-                  sudo pip3 install --upgrade setuptools
-                  sudo pip3 install awsebcli --upgrade
-            - attach_workspace:
-                at: .
-            - run:
-                name: Deploying
-                command: eb deploy GuesserApi-env
+  deploy-prod:
+    executor:
+      name: node/default
+    steps:
+      - run:
+          name: Installing deployment dependencies
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install python3-pip python3-dev build-essential
+            sudo pip3 install --upgrade setuptools
+            sudo pip3 install awsebcli --upgrade
+      - run:
+          name: Deploying
+          command: eb deploy GuesserApi-env
 
 workflows:
-  build-and-test:
+  deploy-prod:
     jobs:
-      - build-and-test:
+      - build:
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
+      - deploy-prod:
           context: guesser-api
           filters:
             branches:
