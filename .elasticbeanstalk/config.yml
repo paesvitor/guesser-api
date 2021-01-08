@@ -1,0 +1,9 @@
+branch-defaults:
+   circleci-project-setup:
+    environment: GuesserApi-env
+global:
+  application_name: guesser-api
+  default_ec2_keyname: guesser-api
+  default_platform: Node.js running on 64bit Amazon Linux
+  default_region: ca-central-1
+  sc: git
