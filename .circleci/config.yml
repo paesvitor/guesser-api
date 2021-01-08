@@ -7,14 +7,19 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - build:
+      - node/with-cache:
           steps:
             - run: npm install
             - run: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 'tmp'
   deploy-prod:
     executor:
       name: node/default
-    steps:
+    steps:            
+      - run: mkdir tmp && zip -r tmp/dist.zip dist
       - run:
           name: Installing deployment dependencies
           command: |
@@ -22,14 +27,17 @@ jobs:
             sudo apt-get install python3-pip python3-dev build-essential
             sudo pip3 install --upgrade setuptools
             sudo pip3 install awsebcli --upgrade
+      - attach_workspace:
+          at: .
       - run:
           name: Deploying
           command: eb deploy GuesserApi-env
 
 workflows:
-  deploy-prod:
+  build:
     jobs:
       - build:
+          context: guesser-api
           filters:
             branches:
               only:
