@@ -23,10 +23,10 @@ jobs:
       name: node/default
     steps:            
       - attach_workspace:
-          at: ./
+          at: ./dist
       - run: 
           name: Checking stuff
-          command: ls -l
+          command: ls
       - run:
           name: Installing deployment dependencies
           command: |
