@@ -12,12 +12,15 @@ jobs:
             - run: npm install
             - run: npm run build
             - run: 
-                name: Checking stuff
-                command: ls -l
+                name: Remove node_modules
+                command: rm -rf node_modules
             - persist_to_workspace:
                 root: .
                 paths:
-                  - dist/*
+                  - .
+            - run: 
+                name: Checking stuff
+                command: ls -l
   deploy-prod:
     executor:
       name: node/default
@@ -26,7 +29,7 @@ jobs:
           at: ./
       - run: 
           name: Checking stuff
-          command: ls && ls dist
+          command: ls -l
       - run:
           name: Installing deployment dependencies
           command: |
@@ -36,7 +39,7 @@ jobs:
             sudo pip3 install awsebcli --upgrade
       - run:
           name: Deploying
-          command: cd dist && eb deploy GuesserApi-env
+          command: eb deploy GuesserApi-env
 
 workflows:
   deploy-prod:
