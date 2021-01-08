@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { getInstagramFollowerCount } from "src/functions/Instagram";
+import { getInstagramFollowerCount } from "../functions/Instagram";
 import {
   calculatePlayersScore,
   generateQuestion,
-} from "src/functions/Question";
-import { PlayerModel } from "src/models/Player";
+} from "../functions/Question";
+import { PlayerModel } from "../models/Player";
 import { RoomModel } from "../models/Room";
 
 async function getRoomByCode(code: string) {

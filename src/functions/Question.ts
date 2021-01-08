@@ -1,7 +1,7 @@
-import { instagramProfiles } from "src/data/instagramProfiles";
-import { IPlayer } from "src/models/Player";
-import { IQuestion, QuestionModel, QuestionSchema } from "src/models/Question";
-import { IRoom } from "src/models/Room";
+import { instagramProfiles } from "../data/instagramProfiles";
+import { IPlayer } from "../models/Player";
+import { IQuestion, QuestionModel, QuestionSchema } from "../models/Question";
+import { IRoom } from "../models/Room";
 import { getInstagramFollowerCount } from "./Instagram";
 import { INameCategory, NameCategoryModel } from "../models/categories/Name";
 
