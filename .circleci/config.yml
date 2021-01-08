@@ -15,7 +15,7 @@ jobs:
                 name: Checking stuff
                 command: ls -l
             - persist_to_workspace:
-                root: .
+                root: ~/
                 paths:
                   - dist
   deploy-prod:
@@ -23,7 +23,10 @@ jobs:
       name: node/default
     steps:            
       - attach_workspace:
-          at: /tmp/dist
+          at: dist
+      - run: 
+          name: Checking stuff
+          command: ls -l
       - run:
           name: Installing deployment dependencies
           command: |
@@ -31,9 +34,6 @@ jobs:
             sudo apt-get install python3-pip python3-dev build-essential
             sudo pip3 install --upgrade setuptools
             sudo pip3 install awsebcli --upgrade
-      - run: 
-          name: Checking stuff
-          command: ls -l
       - run:
           name: Deploying
           command: eb deploy GuesserApi-env
