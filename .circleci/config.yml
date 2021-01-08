@@ -15,7 +15,7 @@ jobs:
                 name: Checking stuff
                 command: ls -l
             - persist_to_workspace:
-                root: ~/
+                root: .
                 paths:
                   - dist
   deploy-prod:
