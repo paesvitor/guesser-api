@@ -20,7 +20,7 @@ jobs:
       name: node/default
     steps: 
       - attach_workspace:
-          at: /tmp/
+          at: .
       - run: 
           name: Checking stuff
           command: ls -l
