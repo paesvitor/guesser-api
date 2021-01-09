@@ -1,10 +1,10 @@
-import { User } from "@entities/User";
+// import { User } from "@entities/User";
 
-test("ok", () => {
-  const user = new User();
+// test("ok", () => {
+//   const user = new User();
 
-  user.name = "Vitor";
-  user.email = "mail";
+//   user.name = "Vitor";
+//   user.email = "mail";
 
-  expect(user.name).toEqual("Vitor");
-});
+//   expect(user.name).toEqual("Vitor");
+// });

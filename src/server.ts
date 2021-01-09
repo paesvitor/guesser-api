@@ -6,7 +6,7 @@ import connect from "./connect";
 import cors from "cors";
 
 const app: Application = express();
-const port = 3001;
+const port = process.env.APP_PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());

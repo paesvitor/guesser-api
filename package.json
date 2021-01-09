@@ -38,6 +38,8 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules src/server.ts",
     "test": "jest",
     "start": "node dist/server.js",
-    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
+    "build-babel": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
+    "build": "yarn run tsc && yarn run build-babel && yarn install --production",
+    "tsc": "tsc --noEmit"
   }
 }
