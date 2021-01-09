@@ -38,10 +38,13 @@ jobs:
 workflows:
   deploy-prod:
     jobs:
+      - build
       - deploy-prod:
           context: guesser-api
           filters:
             branches:
               only:
                 - circleci-project-setup
+          requires:
+            - build
           
