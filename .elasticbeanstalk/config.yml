@@ -1,5 +1,5 @@
 branch-defaults:
-   circleci-project-setup:
+   main:
     environment: GuesserApi-env
 global:
   application_name: guesser-api
