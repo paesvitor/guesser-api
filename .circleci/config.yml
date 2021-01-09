@@ -36,7 +36,7 @@ jobs:
           command: eb deploy GuesserApi-env
 
 workflows:
-  deploy-prod:
+  deploy:
     jobs:
       - build
       - deploy-prod:
